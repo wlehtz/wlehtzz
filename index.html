@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letícia Fantucci Medina — Portfólio</title>
+<meta name="description" content="Portfólio de Letícia Fantucci Medina — estudante de Análise e Desenvolvimento de Sistemas unindo código e imagem, com projetos em HTML, CSS, JavaScript e Python.">
+<meta property="og:title" content="Letícia Fantucci Medina — Portfólio">
+<meta property="og:description" content="Estudante de ADS unindo código e imagem — projetos em HTML, CSS, JavaScript e Python.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23171512'/%3E%3Crect x='6' y='11' width='20' height='12' rx='1.5' fill='none' stroke='%23D9A441' stroke-width='2'/%3E%3Ccircle cx='16' cy='17' r='4' fill='none' stroke='%23D9A441' stroke-width='2'/%3E%3Crect x='13' y='8' width='6' height='3' fill='%23D9A441'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --preto: #171512;
+    --papel: #F6F1E7;
+    --ambar: #D9A441;
+    --ferrugem: #A23E2A;
+    --sálvia: #8A9A7E;
+    --cinza-quente: #7A736A;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--papel);
+    color: var(--preto);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, .display{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+
+  .envelope{
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------------- grão sutil de fundo (SVG) ---------------- */
+  .textura-grao{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    z-index: 5;
+  }
+
+  /* ---------------- furos de perfuração (sprocket holes) ---------------- */
+  .trilho{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+  }
+  .trilho span{
+    width: 10px;
+    height: 14px;
+    border-radius: 2px;
+    background: var(--papel);
+  }
+  .trilho.escuro span{ background: var(--preto); }
+  .trilho.claro{ background: var(--preto); }
+  .trilho.escuro{ background: var(--papel); }
+
+  /* ---------------- hero ---------------- */
+  header.hero{
+    background: var(--preto);
+    color: var(--papel);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header.hero .conteudo-hero{
+    padding: 76px 0 84px;
+    position: relative;
+  }
+
+  .contador-quadro{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--ambar);
+    margin-bottom: 22px;
+  }
+
+  header.hero h1{
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.04;
+    max-width: 11ch;
+  }
+
+  header.hero .cargo{
+    margin-top: 20px;
+    font-size: 1.15rem;
+    color: #D8D2C6;
+    max-width: 46ch;
+  }
+
+  .luz-vazada{
+    position: absolute;
+    top: -140px;
+    right: -140px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(217,164,65,0.35), rgba(217,164,65,0) 70%);
+    pointer-events: none;
+  }
+
+  .links-topo{
+    margin-top: 40px;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .links-topo a{
+    text-decoration: none;
+    border-bottom: 1px solid var(--ambar);
+    padding-bottom: 2px;
+    font-size: 0.95rem;
+    color: var(--papel);
+  }
+  .links-topo a:hover{ color: var(--ambar); }
+
+  /* ---------------- seções gerais ---------------- */
+  section{ padding: 80px 0; }
+
+  .rotulo-secao{
+    font-size: 0.95rem;
+    color: var(--ferrugem);
+    margin-bottom: 10px;
+  }
+
+  section h2{
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    max-width: 20ch;
+    margin-bottom: 34px;
+  }
+
+  /* ---------------- rolo de projetos ---------------- */
+  .rolo{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .quadro{
+    border-top: 1px solid rgba(23,21,18,0.15);
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .rolo .quadro:last-child{ border-bottom: 1px solid rgba(23,21,18,0.15); }
+
+  .numero-quadro{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 2.4rem;
+    color: var(--cinza-quente);
+    line-height: 1;
+  }
+
+  .quadro-conteudo h3{
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .pilha-tecnica{
+    font-size: 0.85rem;
+    color: var(--ferrugem);
+    margin-bottom: 14px;
+  }
+
+  .quadro-conteudo p{
+    max-width: 62ch;
+    color: #33302B;
+    margin-bottom: 16px;
+  }
+
+  .link-projeto{
+    font-size: 0.92rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--preto);
+  }
+  .link-projeto:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
+
+  .selo-em-andamento{
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--sálvia);
+    border: 1px solid var(--sálvia);
+    padding: 2px 10px;
+    border-radius: 2px;
+    margin-left: 10px;
+  }
+
+  /* amostra visual dos projetos que já têm resultado pra mostrar */
+  .preview-imagens{
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    max-width: 480px;
+  }
+  .preview-imagens figure{ margin: 0; flex: 1; }
+  .preview-imagens img{
+    width: 100%;
+    display: block;
+    border: 1px solid rgba(23,21,18,0.15);
+  }
+  .preview-imagens figcaption{
+    font-size: 0.72rem;
+    color: var(--cinza-quente);
+    margin-top: 6px;
+    text-align: center;
+  }
+
+  .preview-paleta{
+    max-width: 480px;
+    margin-bottom: 18px;
+  }
+  .preview-paleta img{
+    width: 100%;
+    display: block;
+    border: 1px solid rgba(23,21,18,0.15);
+  }
+
+  /* ---------------- sobre / trajetória ---------------- */
+  .sobre{
+    background: #EDE6D6;
+  }
+
+  .grade-sobre{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+  }
+
+  .grade-sobre p{ max-width: 52ch; color: #33302B; }
+
+  .colunas-habilidade{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 40px;
+  }
+
+  .grupo-habilidade h4{
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0 10px;
+    color: var(--ferrugem);
+  }
+
+  .grupo-habilidade ul{
+    margin: 0;
+    padding-left: 18px;
+    color: #33302B;
+  }
+  .grupo-habilidade li{ margin-bottom: 4px; }
+
+  /* ---------------- rodapé / contato ---------------- */
+  footer{
+    background: var(--preto);
+    color: var(--papel);
+  }
+
+  footer .conteudo-footer{
+    padding: 70px 0 40px;
+  }
+
+  footer h2{
+    color: var(--papel);
+    max-width: 16ch;
+  }
+
+  .lista-contato{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lista-contato a{
+    text-decoration: none;
+    font-size: 1.05rem;
+    color: var(--papel);
+    width: fit-content;
+    border-bottom: 1px solid transparent;
+  }
+  .lista-contato a:hover{ border-color: var(--ambar); color: var(--ambar); }
+
+  footer .assinatura{
+    margin-top: 60px;
+    font-size: 0.82rem;
+    color: #8C8578;
+  }
+
+  @media (max-width: 760px){
+    .grade-sobre, .colunas-habilidade{ grid-template-columns: 1fr; }
+    .quadro{ grid-template-columns: 50px 1fr; gap: 16px; }
+    .numero-quadro{ font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="textura-grao" xmlns="http://www.w3.org/2000/svg">
+  <filter id="ruido">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#ruido)"/>
+</svg>
+
+<div class="trilho escuro"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<header class="hero">
+  <div class="luz-vazada"></div>
+  <div class="envelope conteudo-hero">
+    <div class="contador-quadro">ROLO 001 — 4 QUADROS EXPOSTOS</div>
+    <h1>Letícia Fantucci<br>Medina</h1>
+    <p class="cargo">Estudante de Análise e Desenvolvimento de Sistemas construindo uma ponte entre código e imagem — telas, paletas e interfaces.</p>
+    <div class="links-topo">
+      <a href="https://github.com/wlehtz" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/let%C3%ADcia-fantucci-medina" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
+    </div>
+  </div>
+</header>
+<div class="trilho claro"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<section class="projetos">
+  <div class="envelope">
+    <div class="rotulo-secao">Trabalho</div>
+    <h2>Quatro quadros do mesmo rolo</h2>
+
+    <div class="rolo">
+
+      <div class="quadro">
+        <div class="numero-quadro">01</div>
+        <div class="quadro-conteudo">
+          <h3>30 Poses</h3>
+          <div class="pilha-tecnica">HTML · CSS · JavaScript — publicado na Vercel</div>
+          <p>Site pessoal de página única sobre fotografia analógica, unindo estética Y2K a uma reflexão sobre o excesso de telas. Grão de filme, trilho de filmstrip 35mm e cards estilo polaroide, tudo construído do zero.</p>
+          <a class="link-projeto" href="https://github.com/wlehtz/30poses" target="_blank" rel="noopener">Ver código no GitHub</a>
+        </div>
+      </div>
+
+      <div class="quadro">
+        <div class="numero-quadro">02</div>
+        <div class="quadro-conteudo">
+          <h3>Filtro Analógico</h3>
+          <div class="pilha-tecnica">Python · Pillow · NumPy</div>
+          <div class="preview-imagens">
+            <figure>
+              <img src="assets/filtro-antes.jpg" alt="Foto original, sem filtro">
+              <figcaption>antes</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/filtro-depois.jpg" alt="Foto com o filtro analógico aplicado">
+              <figcaption>depois</figcaption>
+            </figure>
+          </div>
+          <p>Script que aplica efeitos de foto analógica em qualquer imagem: grão de filme gerado com ruído, vinheta calculada pela distância ao centro, tom retrô quente ou frio, e um carimbo de data no canto, estilo câmera compacta dos anos 90.</p>
+          <a class="link-projeto" href="#">Ver código no GitHub</a>
+        </div>
+      </div>
+
+      <div class="quadro">
+        <div class="numero-quadro">03</div>
+        <div class="quadro-conteudo">
+          <h3>Paleta de Cores</h3>
+          <div class="pilha-tecnica">Python · Pillow</div>
+          <div class="preview-paleta">
+            <img src="assets/paleta-exemplo.png" alt="Exemplo de paleta de cores extraída de uma foto">
+          </div>
+          <p>Extrai as cores dominantes de uma foto e gera uma imagem de paleta com os códigos hexadecimais — o tipo de referência que designers de moda e comunicação visual usam como base de inspiração.</p>
+          <a class="link-projeto" href="#">Ver código no GitHub</a>
+        </div>
+      </div>
+
+      <div class="quadro">
+        <div class="numero-quadro">04</div>
+        <div class="quadro-conteudo">
+          <h3>Organizador de Guarda-roupa <span class="selo-em-andamento">em andamento</span></h3>
+          <div class="pilha-tecnica">Python</div>
+          <p>Catálogo de peças de roupa por cor, tecido, estação e ocasião, com sugestão automática de combinações — conectando a formação técnica em Modelagem do Vestuário à programação.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="sobre">
+  <div class="envelope grade-sobre">
+    <div>
+      <div class="rotulo-secao">Sobre</div>
+      <h2>Da organização ao código</h2>
+      <p>Anos de experiência em organização e atendimento me ensinaram comunicação clara e atenção a detalhe — hoje trago isso para o código. Curso Análise e Desenvolvimento de Sistemas e, na sequência, pretendo iniciar Comunicação Visual, porque meu interesse real está na interseção entre tecnologia e imagem.</p>
+    </div>
+    <div class="colunas-habilidade">
+      <div class="grupo-habilidade">
+        <h4>Código</h4>
+        <ul>
+          <li>HTML, CSS, JavaScript</li>
+          <li>Python</li>
+          <li>Git — versionamento básico</li>
+        </ul>
+      </div>
+      <div class="grupo-habilidade">
+        <h4>Visual</h4>
+        <ul>
+          <li>Canva, Photoshop, Illustrator</li>
+          <li>CorelDRAW</li>
+          <li>Audaces Moldes</li>
+        </ul>
+      </div>
+      <div class="grupo-habilidade">
+        <h4>Atendimento &amp; organização</h4>
+        <ul>
+          <li>Comunicação clara e empática</li>
+          <li>Organização de documentos e rotinas</li>
+          <li>Adaptação a diferentes contextos</li>
+        </ul>
+      </div>
+      <div class="grupo-habilidade">
+        <h4>Idiomas</h4>
+        <ul>
+          <li>Português — nativo</li>
+          <li>Inglês — intermediário</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trilho escuro"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<footer>
+  <div class="envelope conteudo-footer">
+    <div class="rotulo-secao" style="color:var(--ambar)">Contato</div>
+    <h2>Vamos revelar o próximo rolo juntas?</h2>
+    <div class="lista-contato">
+      <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
+      <a href="tel:+5511948881543">(11) 94888-1543</a>
+      <a href="https://github.com/wlehtz" target="_blank" rel="noopener">github.com/wlehtz</a>
+      <a href="https://www.linkedin.com/in/let%C3%ADcia-fantucci-medina" target="_blank" rel="noopener">linkedin.com/in/letícia-fantucci-medina</a>
+    </div>
+    <div class="assinatura">Guarulhos — SP</div>
+  </div>
+</footer>
+
+</body>
+</html>
