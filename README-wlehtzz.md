@@ -12,8 +12,7 @@ código e imagem.
 - **Projetos** — destaque para 4 trabalhos:
   1. [30 Poses](https://github.com/wlehtz/30poses) — ensaio sobre fotografia analógica (HTML/CSS/JS)
   2. [Filtro Analógico](https://github.com/wlehtz/filtro-analogico) — filtro de imagem estilo fotografia analógica (Python + Pillow)
-  3. Paleta de Cores — extração das cores dominantes de uma imagem (Python)
-  4. [Organizador de Guarda-Roupa](https://github.com/wlehtz/guarda-roupa) — catálogo de roupas (Python)
+  3. [Paleta de Cores](https://github.com/wlehtz/paleta-cores) — extração das cores dominantes de uma imagem (Python)
 - **Sobre** — trajetória unindo experiência em atendimento e organização com
   formação em tecnologia.
 - **Habilidades** — código (HTML, CSS, JavaScript, Python, Git), visual (Canva,
