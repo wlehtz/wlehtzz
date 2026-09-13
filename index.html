@@ -459,14 +459,51 @@
     margin: 0 0 18px;
   }
 
+  /* ---------------- barra de progresso de leitura ---------------- */
+  .barra-progresso{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--ambar);
+    z-index: 60;
+  }
+
+  /* ---------------- contador de quadro flutuante (igual ao do 30 Poses) ---------------- */
+  .contador-flutuante{
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    background: var(--preto);
+    color: var(--ambar);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    padding: 7px 13px;
+    border: 1px solid var(--ambar);
+    z-index: 55;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  .contador-flutuante.visivel{ opacity: 1; transform: translateY(0); }
+  @media (max-width: 600px){
+    .contador-flutuante{ top: auto; bottom: 16px; right: 16px; font-size: 10.5px; padding: 6px 10px; }
+  }
+
   @media (prefers-reduced-motion: reduce){
     .anima-entrada{ animation: none; opacity: 1; }
     .revelar{ opacity: 1; transform: none; transition: none; }
     .numero-quadro, .links-topo a, .link-projeto, .lista-contato a{ transition: none; }
+    .contador-flutuante{ transition: none; }
   }
 </style>
 </head>
 <body>
+
+<div class="barra-progresso" id="barraProgresso"></div>
+<div class="contador-flutuante" id="contadorFlutuante">QUADRO 01 / 03</div>
 
 <svg class="textura-grao" xmlns="http://www.w3.org/2000/svg">
   <filter id="ruido">
@@ -488,6 +525,7 @@
       <a href="https://github.com/wlehtz" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/let%C3%ADcia-fantucci-medina" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
+      <a href="assets/cv-leticia-fantucci-medina.pdf" target="_blank" rel="noopener">Currículo (PDF)</a>
     </div>
   </div>
 </header>
@@ -603,6 +641,7 @@
     <div class="rotulo-secao" style="color:var(--ambar)">Contato</div>
     <h2 class="revelar">Vamos revelar o próximo rolo juntas?</h2>
     <div class="lista-contato revelar" style="--atraso:1">
+      <a href="assets/cv-leticia-fantucci-medina.pdf" target="_blank" rel="noopener">Baixar currículo (PDF)</a>
       <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
       <a href="tel:+5511948881543">(11) 94888-1543</a>
       <a href="https://github.com/wlehtz" target="_blank" rel="noopener">github.com/wlehtz</a>
@@ -614,44 +653,108 @@
 
 <script>
 (function(){
+  const prefereReduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // ---- revelar elementos ao rolar ----
   // (checagem manual em vez de só IntersectionObserver: em rolagens muito
   // rápidas/grandes um elemento pode "pular" da tela sem nunca cruzar o
   // threshold do observer, e ficaria invisível pra sempre)
-  const prefereReduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let pendentes = Array.from(document.querySelectorAll('.revelar'));
+  let pendentesRevelar = Array.from(document.querySelectorAll('.revelar'));
+
+  function animarNumeroQuadro(numero){
+    const alvo = numero.textContent.trim();
+    const duracaoTotal = 420;
+    const passo = 45;
+    let decorrido = 0;
+    const intervalo = setInterval(() => {
+      decorrido += passo;
+      if(decorrido >= duracaoTotal){
+        numero.textContent = alvo;
+        clearInterval(intervalo);
+      } else {
+        numero.textContent = String(Math.floor(Math.random() * 99)).padStart(2, '0');
+      }
+    }, passo);
+  }
+
+  function verificarRevelar(){
+    const alturaJanela = window.innerHeight;
+    pendentesRevelar = pendentesRevelar.filter(el => {
+      const dentroDaTela = el.getBoundingClientRect().top < alturaJanela * 0.92;
+      if(dentroDaTela){
+        el.classList.add('visivel');
+        if(!prefereReduzido){
+          const numero = el.querySelector('.numero-quadro');
+          if(numero) animarNumeroQuadro(numero);
+        }
+      }
+      return !dentroDaTela;
+    });
+  }
 
   if(prefereReduzido){
-    pendentes.forEach(el => el.classList.add('visivel'));
-    pendentes = [];
-  } else {
-    let aguardandoFrame = false;
-
-    function verificarRevelar(){
-      const alturaJanela = window.innerHeight;
-      pendentes = pendentes.filter(el => {
-        const dentroDaTela = el.getBoundingClientRect().top < alturaJanela * 0.92;
-        if(dentroDaTela) el.classList.add('visivel');
-        return !dentroDaTela;
-      });
-      if(pendentes.length === 0){
-        window.removeEventListener('scroll', aoRolar);
-        window.removeEventListener('resize', aoRolar);
-      }
-      aguardandoFrame = false;
-    }
-
-    function aoRolar(){
-      if(!aguardandoFrame){
-        requestAnimationFrame(verificarRevelar);
-        aguardandoFrame = true;
-      }
-    }
-
-    window.addEventListener('scroll', aoRolar, { passive: true });
-    window.addEventListener('resize', aoRolar);
-    verificarRevelar();
+    pendentesRevelar.forEach(el => el.classList.add('visivel'));
+    pendentesRevelar = [];
   }
+
+  // ---- barra de progresso de leitura ----
+  const barraProgresso = document.getElementById('barraProgresso');
+  function atualizarBarraProgresso(){
+    if(!barraProgresso) return;
+    const alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const progresso = alturaTotal > 0 ? (window.scrollY / alturaTotal) * 100 : 0;
+    barraProgresso.style.width = progresso + '%';
+  }
+
+  // ---- contador de quadro flutuante (mesma ideia do site "30 Poses") ----
+  const secaoProjetos = document.querySelector('.projetos');
+  const quadros = Array.from(document.querySelectorAll('.projetos .quadro'));
+  const contadorFlutuante = document.getElementById('contadorFlutuante');
+
+  function atualizarContadorFlutuante(){
+    if(!secaoProjetos || !contadorFlutuante || quadros.length === 0) return;
+    const rect = secaoProjetos.getBoundingClientRect();
+    const centroTela = window.innerHeight / 2;
+    const ativo = rect.top < centroTela && rect.bottom > centroTela;
+
+    if(!ativo){
+      contadorFlutuante.classList.remove('visivel');
+      return;
+    }
+
+    let melhorIndice = 0;
+    let menorDistancia = Infinity;
+    quadros.forEach((quadro, indice) => {
+      const r = quadro.getBoundingClientRect();
+      const distancia = Math.abs((r.top + r.height / 2) - centroTela);
+      if(distancia < menorDistancia){
+        menorDistancia = distancia;
+        melhorIndice = indice;
+      }
+    });
+
+    contadorFlutuante.textContent = `QUADRO 0${melhorIndice + 1} / 0${quadros.length}`;
+    contadorFlutuante.classList.add('visivel');
+  }
+
+  // ---- laço único de rolagem, throttled por requestAnimationFrame ----
+  let aguardandoFrame = false;
+  function aoRolar(){
+    if(!aguardandoFrame){
+      requestAnimationFrame(() => {
+        verificarRevelar();
+        atualizarBarraProgresso();
+        atualizarContadorFlutuante();
+        aguardandoFrame = false;
+      });
+      aguardandoFrame = true;
+    }
+  }
+  window.addEventListener('scroll', aoRolar, { passive: true });
+  window.addEventListener('resize', aoRolar);
+  atualizarBarraProgresso();
+  atualizarContadorFlutuante();
+  verificarRevelar();
 
   // ---- comparador antes/depois (Filtro Analógico) ----
   const comparador = document.getElementById('comparadorFiltro');
