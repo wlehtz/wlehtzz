@@ -343,6 +343,127 @@
     .quadro{ grid-template-columns: 50px 1fr; gap: 16px; }
     .numero-quadro{ font-size: 1.6rem; }
   }
+
+  /* ---------------- animações: entrada do hero ---------------- */
+  @keyframes surgir{
+    from{ opacity: 0; transform: translateY(16px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  .anima-entrada{
+    opacity: 0;
+    animation: surgir 0.7s ease forwards;
+  }
+  header.hero .contador-quadro.anima-entrada{ animation-delay: 0.05s; }
+  header.hero h1.anima-entrada{ animation-delay: 0.15s; }
+  header.hero .cargo.anima-entrada{ animation-delay: 0.3s; }
+  header.hero .links-topo.anima-entrada{ animation-delay: 0.45s; }
+
+  /* ---------------- animações: revelar ao rolar ---------------- */
+  .revelar{
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: calc(var(--atraso, 0) * 0.12s);
+  }
+  .revelar.visivel{ opacity: 1; transform: translateY(0); }
+
+  /* transições suaves nos links (não existiam — hover trocava de cor "seco") */
+  .links-topo a,
+  .link-projeto,
+  .lista-contato a{
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .numero-quadro{ transition: color 0.3s ease, transform 0.3s ease; }
+  .quadro:hover .numero-quadro{ color: var(--ferrugem); transform: translateX(4px); }
+
+  /* ---------------- comparador antes/depois (Filtro Analógico) ---------------- */
+  .comparador{
+    position: relative;
+    max-width: 480px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(23,21,18,0.15);
+    overflow: hidden;
+    user-select: none;
+    aspect-ratio: 3 / 2;
+  }
+  .comparador img{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+  .comparador .img-antes-wrap{
+    position: absolute;
+    inset: 0;
+    width: var(--pos, 50%);
+    overflow: hidden;
+  }
+  .comparador .img-antes-wrap img{ width: var(--largura-base, 480px); max-width: none; }
+  .comparador .rotulo{
+    position: absolute;
+    top: 10px;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--papel);
+    background: rgba(23,21,18,0.55);
+    padding: 3px 8px;
+    pointer-events: none;
+  }
+  .comparador .rotulo.antes{ left: 10px; }
+  .comparador .rotulo.depois{ right: 10px; }
+  .comparador .alca{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos, 50%);
+    width: 2px;
+    background: var(--papel);
+    transform: translateX(-1px);
+    pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
+  }
+  .comparador .alca::after{
+    content: '⟷';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--papel);
+    color: var(--preto);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  }
+  .comparador input[type=range]{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .legenda-comparador{
+    font-size: 0.72rem;
+    color: var(--cinza-quente);
+    margin: 0 0 18px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .anima-entrada{ animation: none; opacity: 1; }
+    .revelar{ opacity: 1; transform: none; transition: none; }
+    .numero-quadro, .links-topo a, .link-projeto, .lista-contato a{ transition: none; }
+  }
 </style>
 </head>
 <body>
@@ -360,10 +481,10 @@
 <header class="hero">
   <div class="luz-vazada"></div>
   <div class="envelope conteudo-hero">
-    <div class="contador-quadro">ROLO 001 — 3 QUADROS EXPOSTOS</div>
-    <h1>Letícia Fantucci<br>Medina</h1>
-    <p class="cargo">Estudante de Análise e Desenvolvimento de Sistemas construindo uma ponte entre código e imagem — telas, paletas e interfaces.</p>
-    <div class="links-topo">
+    <div class="contador-quadro anima-entrada">ROLO 001 — 3 QUADROS EXPOSTOS</div>
+    <h1 class="anima-entrada">Letícia Fantucci<br>Medina</h1>
+    <p class="cargo anima-entrada">Estudante de Análise e Desenvolvimento de Sistemas construindo uma ponte entre código e imagem — telas, paletas e interfaces.</p>
+    <div class="links-topo anima-entrada">
       <a href="https://github.com/wlehtz" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/let%C3%ADcia-fantucci-medina" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
@@ -375,11 +496,11 @@
 <section class="projetos">
   <div class="envelope">
     <div class="rotulo-secao">Trabalho</div>
-    <h2>Projetos</h2>
+    <h2 class="revelar">Projetos</h2>
 
     <div class="rolo">
 
-      <div class="quadro">
+      <div class="quadro revelar" style="--atraso:0">
         <div class="numero-quadro">01</div>
         <div class="quadro-conteudo">
           <h3>30 Poses</h3>
@@ -391,21 +512,22 @@
         </div>
       </div>
 
-      <div class="quadro">
+      <div class="quadro revelar" style="--atraso:1">
         <div class="numero-quadro">02</div>
         <div class="quadro-conteudo">
           <h3>Filtro Analógico</h3>
           <div class="pilha-tecnica">Python · Pillow · NumPy</div>
-          <div class="preview-imagens">
-            <figure>
+          <div class="comparador" id="comparadorFiltro" style="--pos:50%; --largura-base:480px;">
+            <img src="assets/filtro-depois.jpg" alt="Foto com o filtro analógico aplicado">
+            <div class="img-antes-wrap">
               <img src="assets/filtro-antes.jpg" alt="Foto original, sem filtro">
-              <figcaption>antes</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/filtro-depois.jpg" alt="Foto com o filtro analógico aplicado">
-              <figcaption>depois</figcaption>
-            </figure>
+            </div>
+            <div class="rotulo antes">antes</div>
+            <div class="rotulo depois">depois</div>
+            <div class="alca"></div>
+            <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois">
           </div>
+          <p class="legenda-comparador">arraste para comparar</p>
           <p>Script que aplica efeitos de foto analógica em qualquer imagem: grão de filme gerado com ruído, vinheta calculada pela distância ao centro, tom retrô quente ou frio, e um carimbo de data no canto, estilo câmera compacta dos anos 90.</p>
           <a class="link-projeto" href="demo-filtro.html">Testar com sua foto</a>
           &nbsp;·&nbsp;
@@ -413,7 +535,7 @@
         </div>
       </div>
 
-      <div class="quadro">
+      <div class="quadro revelar" style="--atraso:2">
         <div class="numero-quadro">03</div>
         <div class="quadro-conteudo">
           <h3>Paleta de Cores</h3>
@@ -434,12 +556,12 @@
 
 <section class="sobre">
   <div class="envelope grade-sobre">
-    <div>
+    <div class="revelar">
       <div class="rotulo-secao">Sobre</div>
       <h2>Da organização ao código</h2>
       <p>Anos de experiência em organização e atendimento me ensinaram comunicação clara e atenção a detalhe — hoje trago isso para o código. Curso Análise e Desenvolvimento de Sistemas e, na sequência, pretendo iniciar Comunicação Visual, porque meu interesse real está na interseção entre tecnologia e imagem.</p>
     </div>
-    <div class="colunas-habilidade">
+    <div class="colunas-habilidade revelar" style="--atraso:1">
       <div class="grupo-habilidade">
         <h4>Código</h4>
         <ul>
@@ -479,8 +601,8 @@
 <footer>
   <div class="envelope conteudo-footer">
     <div class="rotulo-secao" style="color:var(--ambar)">Contato</div>
-    <h2>Vamos revelar o próximo rolo juntas?</h2>
-    <div class="lista-contato">
+    <h2 class="revelar">Vamos revelar o próximo rolo juntas?</h2>
+    <div class="lista-contato revelar" style="--atraso:1">
       <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
       <a href="tel:+5511948881543">(11) 94888-1543</a>
       <a href="https://github.com/wlehtz" target="_blank" rel="noopener">github.com/wlehtz</a>
@@ -490,6 +612,64 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  // ---- revelar elementos ao rolar ----
+  // (checagem manual em vez de só IntersectionObserver: em rolagens muito
+  // rápidas/grandes um elemento pode "pular" da tela sem nunca cruzar o
+  // threshold do observer, e ficaria invisível pra sempre)
+  const prefereReduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let pendentes = Array.from(document.querySelectorAll('.revelar'));
+
+  if(prefereReduzido){
+    pendentes.forEach(el => el.classList.add('visivel'));
+    pendentes = [];
+  } else {
+    let aguardandoFrame = false;
+
+    function verificarRevelar(){
+      const alturaJanela = window.innerHeight;
+      pendentes = pendentes.filter(el => {
+        const dentroDaTela = el.getBoundingClientRect().top < alturaJanela * 0.92;
+        if(dentroDaTela) el.classList.add('visivel');
+        return !dentroDaTela;
+      });
+      if(pendentes.length === 0){
+        window.removeEventListener('scroll', aoRolar);
+        window.removeEventListener('resize', aoRolar);
+      }
+      aguardandoFrame = false;
+    }
+
+    function aoRolar(){
+      if(!aguardandoFrame){
+        requestAnimationFrame(verificarRevelar);
+        aguardandoFrame = true;
+      }
+    }
+
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    window.addEventListener('resize', aoRolar);
+    verificarRevelar();
+  }
+
+  // ---- comparador antes/depois (Filtro Analógico) ----
+  const comparador = document.getElementById('comparadorFiltro');
+  if(comparador){
+    const controle = comparador.querySelector('input[type=range]');
+
+    function ajustarLarguraBase(){
+      comparador.style.setProperty('--largura-base', comparador.offsetWidth + 'px');
+    }
+    ajustarLarguraBase();
+    window.addEventListener('resize', ajustarLarguraBase);
+
+    controle.addEventListener('input', () => {
+      comparador.style.setProperty('--pos', controle.value + '%');
+    });
+  }
+})();
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
