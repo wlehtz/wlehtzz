@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paleta de Cores — demo ao vivo | Letícia Fantucci Medina</title>
+<meta name="description" content="Teste ao vivo, no navegador, a extração de cores dominantes de uma foto e gere uma paleta com os códigos hexadecimais. Baseado no script Python de Letícia Fantucci Medina.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23171512'/%3E%3Crect x='6' y='11' width='20' height='12' rx='1.5' fill='none' stroke='%23D9A441' stroke-width='2'/%3E%3Ccircle cx='16' cy='17' r='4' fill='none' stroke='%23D9A441' stroke-width='2'/%3E%3Crect x='13' y='8' width='6' height='3' fill='%23D9A441'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --preto: #171512;
+    --papel: #F6F1E7;
+    --ambar: #D9A441;
+    --ferrugem: #A23E2A;
+    --sálvia: #8A9A7E;
+    --cinza-quente: #7A736A;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    background: var(--papel);
+    color: var(--preto);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  h1, h2, .display{ font-family: 'Fraunces', serif; font-weight: 600; margin: 0; }
+  a{ color: inherit; }
+  .envelope{ max-width: 1040px; margin: 0 auto; padding: 0 32px; }
+
+  header.topo{ background: var(--preto); color: var(--papel); }
+  header.topo .envelope{ padding: 30px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .voltar{ text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid var(--ambar); padding-bottom: 2px; color: var(--papel); }
+  .voltar:hover{ color: var(--ambar); }
+  .rotulo-secao{ font-size: 0.95rem; color: var(--ferrugem); margin-bottom: 10px; }
+
+  main{ padding: 56px 0 90px; }
+  main h1{ font-size: clamp(1.9rem, 4vw, 2.6rem); max-width: 18ch; margin-bottom: 14px; }
+  main > .envelope > p.intro{ max-width: 62ch; color: #33302B; margin-bottom: 40px; }
+
+  .aviso{
+    display: inline-block;
+    font-size: 0.82rem;
+    color: var(--sálvia);
+    border: 1px solid var(--sálvia);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+  }
+
+  .painel{
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .controles{
+    background: #EDE6D6;
+    border: 1px solid rgba(23,21,18,0.12);
+    padding: 24px;
+  }
+  .controles label{ display: block; font-size: 0.85rem; color: var(--ferrugem); margin: 18px 0 6px; }
+  .controles label:first-child{ margin-top: 0; }
+  .campo-arquivo{
+    display: block;
+    border: 1px dashed var(--cinza-quente);
+    padding: 22px 14px;
+    text-align: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: var(--papel);
+  }
+  .campo-arquivo:hover{ border-color: var(--ferrugem); color: var(--ferrugem); }
+  input[type=file]{ display: none; }
+  input[type=range]{ width: 100%; accent-color: var(--ferrugem); }
+  .valor-slider{ font-size: 0.8rem; color: var(--cinza-quente); }
+
+  button{
+    margin-top: 24px;
+    width: 100%;
+    padding: 12px;
+    background: var(--preto);
+    color: var(--papel);
+    border: none;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  button:hover{ background: var(--ferrugem); }
+  button:disabled{ opacity: 0.5; cursor: not-allowed; }
+
+  .link-download{
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--preto);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .link-download:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
+
+  .resultado{
+    border: 1px solid rgba(23,21,18,0.15);
+    background: #fff;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder{ color: var(--cinza-quente); font-size: 0.95rem; text-align: center; padding: 40px; }
+
+  .faixas{ display: flex; width: 100%; }
+  .faixa{
+    flex: 1;
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 18px;
+    cursor: pointer;
+    position: relative;
+  }
+  .faixa span{ font-family: 'Work Sans', monospace; font-weight: 600; font-size: 0.85rem; }
+  .faixa .copiado{
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .faixa.mostrar-copiado .copiado{ opacity: 1; }
+
+  .rodape-demo{ margin-top: 50px; font-size: 0.9rem; color: var(--cinza-quente); }
+  .rodape-demo a{ border-bottom: 1px solid var(--preto); text-decoration: none; }
+  .rodape-demo a:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
+
+  @media (max-width: 720px){
+    .painel{ grid-template-columns: 1fr; }
+    .faixas{ flex-direction: column; }
+    .faixa{ flex: 0 0 70px; height: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="envelope">
+    <div class="display" style="font-size:1.1rem;">Letícia Fantucci Medina</div>
+    <a class="voltar" href="index.html">← Voltar ao portfólio</a>
+  </div>
+</header>
+
+<main>
+  <div class="envelope">
+    <div class="rotulo-secao">Demo · Projeto 03</div>
+    <h1>Paleta de Cores, no navegador</h1>
+    <p class="intro">Envie uma foto e veja as cores dominantes extraídas na hora, com os códigos hexadecimais — clique numa faixa para copiar o código. Reprodução em JavaScript do script <a href="https://github.com/wlehtz/paleta-cores" target="_blank" rel="noopener">paleta-cores</a>; a versão original, em Python com Pillow, está no link acima.</p>
+    <div class="aviso">A imagem não sai do seu navegador — nada é enviado a nenhum servidor.</div>
+
+    <div class="painel">
+      <div class="controles">
+        <label for="arquivo">Sua foto</label>
+        <label class="campo-arquivo" id="rotuloArquivo" for="arquivo">Escolher imagem…</label>
+        <input type="file" id="arquivo" accept="image/*">
+
+        <label for="numCores">Quantidade de cores <span class="valor-slider" id="valorNumCores">6</span></label>
+        <input type="range" id="numCores" min="3" max="10" step="1" value="6">
+
+        <button id="botaoExtrair" disabled>Extrair paleta</button>
+        <a id="linkDownload" class="link-download" style="display:none;" download="paleta.png">Baixar paleta</a>
+      </div>
+
+      <div class="resultado" id="areaResultado">
+        <div class="placeholder">Escolha uma imagem para começar</div>
+      </div>
+    </div>
+
+    <div class="rodape-demo">
+      Quer ver o algoritmo de verdade, com quantização Pillow? <a href="https://github.com/wlehtz/paleta-cores" target="_blank" rel="noopener">Código no GitHub →</a>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  const inputArquivo = document.getElementById('arquivo');
+  const rotuloArquivo = document.getElementById('rotuloArquivo');
+  const sliderNumCores = document.getElementById('numCores');
+  const valorNumCores = document.getElementById('valorNumCores');
+  const botaoExtrair = document.getElementById('botaoExtrair');
+  const areaResultado = document.getElementById('areaResultado');
+  const linkDownload = document.getElementById('linkDownload');
+
+  let imagemCarregada = null;
+
+  sliderNumCores.addEventListener('input', () => {
+    valorNumCores.textContent = sliderNumCores.value;
+  });
+
+  inputArquivo.addEventListener('change', (ev) => {
+    const arquivo = ev.target.files[0];
+    if(!arquivo) return;
+    rotuloArquivo.textContent = arquivo.name;
+    const leitor = new FileReader();
+    leitor.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        imagemCarregada = img;
+        botaoExtrair.disabled = false;
+        extrairPaleta();
+      };
+      img.src = e.target.result;
+    };
+    leitor.readAsDataURL(arquivo);
+  });
+
+  botaoExtrair.addEventListener('click', extrairPaleta);
+
+  function distanciaCor(a, b){
+    return Math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2 + (a[2]-b[2])**2);
+  }
+
+  function rgbParaHex([r,g,b]){
+    return '#' + [r,g,b].map(v => Math.round(v).toString(16).padStart(2,'0').toUpperCase()).join('');
+  }
+
+  function corDeTextoLegivel([r,g,b]){
+    const luminancia = (0.299*r + 0.587*g + 0.114*b) / 255;
+    return luminancia > 0.6 ? '#141414' : '#F5F5F5';
+  }
+
+  function extrairCoresDominantes(img, numeroDeCores){
+    const LADO = 120;
+    const canvas = document.createElement('canvas');
+    canvas.width = LADO; canvas.height = LADO;
+    const ctx = canvas.getContext('2d');
+
+    // "contain" simples pra não distorcer a amostra
+    const escala = Math.min(LADO/img.naturalWidth, LADO/img.naturalHeight);
+    const w = img.naturalWidth*escala, h = img.naturalHeight*escala;
+    ctx.drawImage(img, (LADO-w)/2, (LADO-h)/2, w, h);
+
+    const { data } = ctx.getImageData(0, 0, LADO, LADO);
+    const TAMANHO_BUCKET = 24;
+    const buckets = new Map();
+
+    for(let i=0;i<data.length;i+=4){
+      if(data[i+3] < 16) continue; // ignora pixels transparentes (fundo do "contain")
+      const r=data[i], g=data[i+1], b=data[i+2];
+      const chave = [
+        Math.floor(r/TAMANHO_BUCKET),
+        Math.floor(g/TAMANHO_BUCKET),
+        Math.floor(b/TAMANHO_BUCKET)
+      ].join(',');
+      if(!buckets.has(chave)) buckets.set(chave, { count:0, r:0, g:0, b:0 });
+      const entrada = buckets.get(chave);
+      entrada.count++; entrada.r += r; entrada.g += g; entrada.b += b;
+    }
+
+    const candidatas = Array.from(buckets.values())
+      .map(e => ({ count: e.count, cor: [e.r/e.count, e.g/e.count, e.b/e.count] }))
+      .sort((a,b) => b.count - a.count);
+
+    const distanciaMinima = 40;
+    const escolhidas = [];
+    for(const candidata of candidatas){
+      const muitoParecida = escolhidas.some(c => distanciaCor(c, candidata.cor) < distanciaMinima);
+      if(!muitoParecida) escolhidas.push(candidata.cor);
+      if(escolhidas.length === numeroDeCores) break;
+    }
+    return escolhidas;
+  }
+
+  function extrairPaleta(){
+    if(!imagemCarregada) return;
+    const numeroDeCores = parseInt(sliderNumCores.value, 10);
+    const cores = extrairCoresDominantes(imagemCarregada, numeroDeCores);
+
+    // ---- monta o canvas de saída, igual ao script original ----
+    const largura = 900, alturaFaixa = 160;
+    const larguraPorCor = Math.floor(largura / cores.length);
+    const canvas = document.createElement('canvas');
+    canvas.width = larguraPorCor * cores.length;
+    canvas.height = alturaFaixa;
+    const ctx = canvas.getContext('2d');
+
+    cores.forEach((cor, indice) => {
+      const x0 = indice * larguraPorCor;
+      ctx.fillStyle = `rgb(${cor[0]},${cor[1]},${cor[2]})`;
+      ctx.fillRect(x0, 0, larguraPorCor, alturaFaixa);
+
+      const hex = rgbParaHex(cor);
+      ctx.fillStyle = corDeTextoLegivel(cor);
+      ctx.font = "bold 16px 'Courier New', monospace";
+      ctx.textAlign = 'center';
+      ctx.fillText(hex, x0 + larguraPorCor/2, alturaFaixa - 24);
+    });
+
+    // ---- faixas clicáveis (copiar hex) ----
+    const faixasHtml = document.createElement('div');
+    faixasHtml.className = 'faixas';
+    cores.forEach((cor) => {
+      const hex = rgbParaHex(cor);
+      const faixa = document.createElement('div');
+      faixa.className = 'faixa';
+      faixa.style.background = hex;
+      faixa.title = 'Clique para copiar';
+      const span = document.createElement('span');
+      span.textContent = hex;
+      span.style.color = corDeTextoLegivel(cor);
+      const copiado = document.createElement('div');
+      copiado.className = 'copiado';
+      copiado.textContent = 'copiado!';
+      copiado.style.color = corDeTextoLegivel(cor);
+      faixa.appendChild(copiado);
+      faixa.appendChild(span);
+      faixa.addEventListener('click', () => {
+        navigator.clipboard.writeText(hex).catch(() => {});
+        faixa.classList.add('mostrar-copiado');
+        setTimeout(() => faixa.classList.remove('mostrar-copiado'), 900);
+      });
+      faixasHtml.appendChild(faixa);
+    });
+
+    areaResultado.innerHTML = '';
+    areaResultado.style.display = 'block';
+    areaResultado.appendChild(faixasHtml);
+
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      linkDownload.href = url;
+      linkDownload.style.display = 'block';
+    }, 'image/png');
+  }
+})();
+</script>
+
+</body>
+</html>

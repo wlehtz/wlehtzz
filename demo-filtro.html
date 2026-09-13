@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filtro Analógico — demo ao vivo | Letícia Fantucci Medina</title>
+<meta name="description" content="Teste ao vivo, no navegador, do filtro de foto analógica: grão de filme, vinheta, tom retrô e carimbo de data. Baseado no script Python de Letícia Fantucci Medina.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23171512'/%3E%3Crect x='6' y='11' width='20' height='12' rx='1.5' fill='none' stroke='%23D9A441' stroke-width='2'/%3E%3Ccircle cx='16' cy='17' r='4' fill='none' stroke='%23D9A441' stroke-width='2'/%3E%3Crect x='13' y='8' width='6' height='3' fill='%23D9A441'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --preto: #171512;
+    --papel: #F6F1E7;
+    --ambar: #D9A441;
+    --ferrugem: #A23E2A;
+    --sálvia: #8A9A7E;
+    --cinza-quente: #7A736A;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    background: var(--papel);
+    color: var(--preto);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  h1, h2, .display{ font-family: 'Fraunces', serif; font-weight: 600; margin: 0; }
+  a{ color: inherit; }
+  .envelope{ max-width: 1040px; margin: 0 auto; padding: 0 32px; }
+
+  header.topo{
+    background: var(--preto);
+    color: var(--papel);
+  }
+  header.topo .envelope{ padding: 30px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .voltar{ text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid var(--ambar); padding-bottom: 2px; color: var(--papel); }
+  .voltar:hover{ color: var(--ambar); }
+  .rotulo-secao{ font-size: 0.95rem; color: var(--ferrugem); margin-bottom: 10px; }
+
+  main{ padding: 56px 0 90px; }
+  main h1{ font-size: clamp(1.9rem, 4vw, 2.6rem); max-width: 18ch; margin-bottom: 14px; }
+  main > .envelope > p.intro{ max-width: 62ch; color: #33302B; margin-bottom: 40px; }
+
+  .aviso{
+    display: inline-block;
+    font-size: 0.82rem;
+    color: var(--sálvia);
+    border: 1px solid var(--sálvia);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+  }
+
+  .painel{
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .controles{
+    background: #EDE6D6;
+    border: 1px solid rgba(23,21,18,0.12);
+    padding: 24px;
+  }
+  .controles label{ display: block; font-size: 0.85rem; color: var(--ferrugem); margin: 18px 0 6px; }
+  .controles label:first-child{ margin-top: 0; }
+  .campo-arquivo{
+    display: block;
+    border: 1px dashed var(--cinza-quente);
+    padding: 22px 14px;
+    text-align: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: var(--papel);
+  }
+  .campo-arquivo:hover{ border-color: var(--ferrugem); color: var(--ferrugem); }
+  input[type=file]{ display: none; }
+  input[type=range]{ width: 100%; accent-color: var(--ferrugem); }
+  input[type=text]{
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid rgba(23,21,18,0.25);
+    background: var(--papel);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.9rem;
+  }
+  .linha-check{ display: flex; align-items: center; gap: 8px; margin-top: 18px; }
+  .linha-check input{ accent-color: var(--ferrugem); }
+  .linha-check label{ margin: 0; font-size: 0.9rem; color: var(--preto); }
+
+  .valor-slider{ font-size: 0.8rem; color: var(--cinza-quente); }
+
+  button{
+    margin-top: 24px;
+    width: 100%;
+    padding: 12px;
+    background: var(--preto);
+    color: var(--papel);
+    border: none;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  button:hover{ background: var(--ferrugem); }
+  button:disabled{ opacity: 0.5; cursor: not-allowed; }
+
+  .link-download{
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--preto);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .link-download:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
+
+  .resultado{
+    border: 1px solid rgba(23,21,18,0.15);
+    background: var(--preto);
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .resultado canvas{ max-width: 100%; display: block; }
+  .placeholder{ color: #8C8578; font-size: 0.95rem; text-align: center; padding: 40px; }
+
+  .rodape-demo{ margin-top: 50px; font-size: 0.9rem; color: var(--cinza-quente); }
+  .rodape-demo a{ border-bottom: 1px solid var(--preto); text-decoration: none; }
+  .rodape-demo a:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
+
+  @media (max-width: 720px){
+    .painel{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="envelope">
+    <div class="display" style="font-size:1.1rem;">Letícia Fantucci Medina</div>
+    <a class="voltar" href="index.html">← Voltar ao portfólio</a>
+  </div>
+</header>
+
+<main>
+  <div class="envelope">
+    <div class="rotulo-secao">Demo · Projeto 02</div>
+    <h1>Filtro Analógico, no navegador</h1>
+    <p class="intro">Envie uma foto e veja o mesmo efeito do script <a href="https://github.com/wlehtz/filtro-analogico" target="_blank" rel="noopener">filtro-analogico</a> (grão de filme, vinheta e tom retrô). Esta versão é uma reprodução em JavaScript puro só para rodar direto aqui no navegador — a versão "de verdade", em Python com Pillow e NumPy, está no link acima.</p>
+    <div class="aviso">A imagem não sai do seu navegador — nada é enviado a nenhum servidor.</div>
+
+    <div class="painel">
+      <div class="controles">
+        <label for="arquivo">Sua foto</label>
+        <label class="campo-arquivo" id="rotuloArquivo" for="arquivo">Escolher imagem…</label>
+        <input type="file" id="arquivo" accept="image/*">
+
+        <label for="intensidade">Intensidade <span class="valor-slider" id="valorIntensidade">1.0</span></label>
+        <input type="range" id="intensidade" min="0" max="1.5" step="0.05" value="1">
+
+        <div class="linha-check">
+          <input type="checkbox" id="comData" checked>
+          <label for="comData">Carimbo de data</label>
+        </div>
+        <label for="textoData">Texto do carimbo</label>
+        <input type="text" id="textoData" value="07 15 96">
+
+        <button id="botaoAplicar" disabled>Aplicar filtro</button>
+        <a id="linkDownload" class="link-download" style="display:none;" download="foto-analogica.jpg">Baixar resultado</a>
+      </div>
+
+      <div class="resultado" id="areaResultado">
+        <div class="placeholder">Escolha uma imagem para começar</div>
+      </div>
+    </div>
+
+    <div class="rodape-demo">
+      Quer ver como o pipeline funciona de verdade, com Pillow e NumPy? <a href="https://github.com/wlehtz/filtro-analogico" target="_blank" rel="noopener">Código no GitHub →</a>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  const inputArquivo = document.getElementById('arquivo');
+  const rotuloArquivo = document.getElementById('rotuloArquivo');
+  const sliderIntensidade = document.getElementById('intensidade');
+  const valorIntensidade = document.getElementById('valorIntensidade');
+  const checkData = document.getElementById('comData');
+  const textoData = document.getElementById('textoData');
+  const botaoAplicar = document.getElementById('botaoAplicar');
+  const areaResultado = document.getElementById('areaResultado');
+  const linkDownload = document.getElementById('linkDownload');
+
+  let imagemCarregada = null;
+
+  sliderIntensidade.addEventListener('input', () => {
+    valorIntensidade.textContent = parseFloat(sliderIntensidade.value).toFixed(2);
+  });
+
+  inputArquivo.addEventListener('change', (ev) => {
+    const arquivo = ev.target.files[0];
+    if(!arquivo) return;
+    rotuloArquivo.textContent = arquivo.name;
+    const leitor = new FileReader();
+    leitor.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        imagemCarregada = img;
+        botaoAplicar.disabled = false;
+        aplicarFiltro();
+      };
+      img.src = e.target.result;
+    };
+    leitor.readAsDataURL(arquivo);
+  });
+
+  botaoAplicar.addEventListener('click', aplicarFiltro);
+
+  function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+  function aplicarFiltro(){
+    if(!imagemCarregada) return;
+
+    const MAX_LADO = 1400;
+    let largura = imagemCarregada.naturalWidth;
+    let altura = imagemCarregada.naturalHeight;
+    const escala = Math.min(1, MAX_LADO / Math.max(largura, altura));
+    largura = Math.round(largura * escala);
+    altura = Math.round(altura * escala);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = largura;
+    canvas.height = altura;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imagemCarregada, 0, 0, largura, altura);
+
+    const intensidade = parseFloat(sliderIntensidade.value);
+
+    // ---- gradação de cor (autocontraste aproximado + tons quente/frio) ----
+    const dados = ctx.getImageData(0, 0, largura, altura);
+    const px = dados.data;
+
+    let minR=255,maxR=0,minG=255,maxG=0,minB=255,maxB=0;
+    for(let i=0;i<px.length;i+=4){
+      if(px[i]<minR)minR=px[i]; if(px[i]>maxR)maxR=px[i];
+      if(px[i+1]<minG)minG=px[i+1]; if(px[i+1]>maxG)maxG=px[i+1];
+      if(px[i+2]<minB)minB=px[i+2]; if(px[i+2]>maxB)maxB=px[i+2];
+    }
+    const estica = (v,min,max) => max>min ? clamp(((v-min)/(max-min))*255,0,255) : v;
+
+    for(let i=0;i<px.length;i+=4){
+      let r = estica(px[i], minR, maxR);
+      let g = estica(px[i+1], minG, maxG);
+      let b = estica(px[i+2], minB, maxB);
+
+      // tom quente no vermelho, frio no azul (look "filme vencido")
+      r = clamp(r*1.05+8, 0, 255);
+      b = clamp(b*0.92, 0, 255);
+
+      // contraste reduzido (0.88 em torno do meio-tom)
+      r = clamp((r-128)*0.88+128, 0, 255);
+      g = clamp((g-128)*0.88+128, 0, 255);
+      b = clamp((b-128)*0.88+128, 0, 255);
+
+      // saturação reduzida (0.85)
+      const cinza = 0.299*r + 0.587*g + 0.114*b;
+      r = clamp(cinza + (r-cinza)*0.85, 0, 255);
+      g = clamp(cinza + (g-cinza)*0.85, 0, 255);
+      b = clamp(cinza + (b-cinza)*0.85, 0, 255);
+
+      // brilho +4%
+      px[i]   = clamp(r*1.04, 0, 255);
+      px[i+1] = clamp(g*1.04, 0, 255);
+      px[i+2] = clamp(b*1.04, 0, 255);
+    }
+    ctx.putImageData(dados, 0, 0);
+
+    // ---- vinheta ----
+    const cx = largura/2, cy = altura/2;
+    const raio = Math.sqrt(cx*cx+cy*cy);
+    const gradiente = ctx.createRadialGradient(cx, cy, raio*0.35, cx, cy, raio*0.95);
+    gradiente.addColorStop(0, 'rgba(0,0,0,0)');
+    gradiente.addColorStop(1, `rgba(0,0,0,${0.55*intensidade})`);
+    ctx.fillStyle = gradiente;
+    ctx.fillRect(0,0,largura,altura);
+
+    // ---- grão de filme ----
+    const ruido = document.createElement('canvas');
+    ruido.width = largura; ruido.height = altura;
+    const ctxRuido = ruido.getContext('2d');
+    const dadosRuido = ctxRuido.createImageData(largura, altura);
+    for(let i=0;i<dadosRuido.data.length;i+=4){
+      const v = Math.floor(Math.random()*255);
+      dadosRuido.data[i]=v; dadosRuido.data[i+1]=v; dadosRuido.data[i+2]=v; dadosRuido.data[i+3]=255;
+    }
+    ctxRuido.putImageData(dadosRuido,0,0);
+    ctx.save();
+    ctx.globalAlpha = clamp(0.16*intensidade, 0, 1);
+    ctx.drawImage(ruido, 0, 0);
+    ctx.restore();
+
+    // ---- carimbo de data ----
+    if(checkData.checked && textoData.value.trim()){
+      const texto = textoData.value.trim();
+      const tamanhoFonte = Math.max(14, Math.round(largura*0.032));
+      ctx.font = `bold ${tamanhoFonte}px 'Courier New', monospace`;
+      const margem = largura*0.02;
+      const larguraTexto = ctx.measureText(texto).width;
+      const x = largura - larguraTexto - margem;
+      const y = altura - margem;
+
+      ctx.fillStyle = 'rgba(120,40,0,0.9)';
+      [[-1,0],[1,0],[0,-1],[0,1]].forEach(([dx,dy]) => ctx.fillText(texto, x+dx, y+dy));
+      ctx.fillStyle = 'rgb(255,106,0)';
+      ctx.fillText(texto, x, y);
+    }
+
+    areaResultado.innerHTML = '';
+    areaResultado.appendChild(canvas);
+
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      linkDownload.href = url;
+      linkDownload.style.display = 'block';
+    }, 'image/jpeg', 0.92);
+  }
+})();
+</script>
+
+</body>
+</html>
