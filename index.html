@@ -5,11 +5,11 @@
 <script>document.documentElement.classList.add('js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Letícia Fantucci Medina — Portfólio</title>
-<meta name="description" content="Portfólio de Letícia Fantucci Medina — estudante de Análise e Desenvolvimento de Sistemas unindo código e imagem, com projetos em HTML, CSS, JavaScript e Python.">
+<meta name="description" content="Portfólio de Letícia Fantucci Medina — desenvolvedora front-end em formação (ADS), com projetos em HTML, CSS, JavaScript e Python e demos que rodam no navegador.">
 <link rel="canonical" href="https://www.wlehtz.com.br/">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Letícia Fantucci Medina — Portfólio">
-<meta property="og:description" content="Estudante de ADS unindo código e imagem — projetos em HTML, CSS, JavaScript e Python.">
+<meta property="og:description" content="Desenvolvedora front-end em formação (ADS) — interfaces com cuidado visual, projetos em HTML, CSS, JavaScript e Python.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.wlehtz.com.br/">
 <meta property="og:image" content="https://www.wlehtz.com.br/assets/og-image.png">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Letícia Fantucci Medina — Portfólio">
-<meta name="twitter:description" content="Estudante de ADS unindo código e imagem — projetos em HTML, CSS, JavaScript e Python.">
+<meta name="twitter:description" content="Desenvolvedora front-end em formação (ADS) — interfaces com cuidado visual, projetos em HTML, CSS, JavaScript e Python.">
 <meta name="twitter:image" content="https://www.wlehtz.com.br/assets/og-image.png">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -31,7 +31,7 @@
   "name": "Letícia Fantucci Medina",
   "url": "https://www.wlehtz.com.br/",
   "email": "mailto:elar450@gmail.com",
-  "jobTitle": "Estudante de Análise e Desenvolvimento de Sistemas",
+  "jobTitle": "Desenvolvedora front-end em formação",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Guarulhos",
@@ -233,40 +233,48 @@
   .link-projeto:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
 
 
-  /* amostra visual dos projetos que já têm resultado pra mostrar */
-  .preview-imagens{
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-    max-width: 480px;
-  }
-  .preview-imagens figure{ margin: 0; flex: 1; }
-  .preview-imagens img{
-    width: 100%;
-    display: block;
-    border: 1px solid rgba(23,21,18,0.15);
-  }
-  .preview-imagens figcaption{
-    font-size: 0.72rem;
-    color: var(--cinza-quente);
-    margin-top: 6px;
-    text-align: center;
+  /* ficha curta de contexto de cada projeto */
+  .ficha{ margin: 0 0 18px; display: grid; gap: 6px; font-size: 0.9rem; }
+  .ficha div{ display: grid; grid-template-columns: 8.5em 1fr; gap: 12px; }
+  .ficha dt{ color: var(--ferrugem); }
+  .ficha dd{ margin: 0; color: #33302B; }
+  .ficha code{ font-size: 0.85em; }
+  .links-quadro{ display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+  .selo-cliente{
+    display: inline-block; vertical-align: middle;
+    font-family: 'Work Sans', sans-serif; font-weight: 500;
+    font-size: 0.72rem; letter-spacing: 0.03em;
+    color: var(--ferrugem); border: 1px solid var(--ferrugem);
+    padding: 1px 8px; margin-left: 8px; border-radius: 2px;
   }
 
-  .preview-paleta{
-    max-width: 480px;
-    margin-bottom: 18px;
-  }
-  .preview-paleta img{
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid rgba(23,21,18,0.15);
-  }
-
-  .preview-site{ display: block; max-width: 480px; margin-bottom: 18px; border: 1px solid rgba(23,21,18,0.15); }
+  /* imagem de cada projeto */
+  .quadro-midia{ display: block; max-width: 480px; margin: 0 0 22px; }
+  .preview-site{ border: 1px solid rgba(23,21,18,0.15); transition: border-color 0.2s ease; }
   .preview-site img{ width: 100%; height: auto; display: block; }
   .preview-site:hover{ border-color: var(--ferrugem); }
+  .quadro-midia .comparador{ margin-bottom: 8px; }
+  .quadro-midia .legenda-comparador{ margin-bottom: 0; }
+
+  /* foto original -> paleta */
+  .foto-para-paleta{ display: grid; justify-items: start; gap: 6px; }
+  .foto-para-paleta img{ display: block; border: 1px solid rgba(23,21,18,0.15); height: auto; }
+  .foto-para-paleta .foto-origem{ width: 62%; }
+  .foto-para-paleta .faixas{ width: 100%; }
+  .seta-paleta{ color: var(--cinza-quente); line-height: 1; padding-left: 4px; }
+  .foto-para-paleta figcaption{ font-size: 0.72rem; color: var(--cinza-quente); }
+
+  /* desktop: texto e imagem lado a lado */
+  @media (min-width: 1000px){
+    .quadro-conteudo{
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 0 48px;
+      align-items: start;
+    }
+    .quadro-midia{ max-width: none; margin: 0; }
+    .quadro-conteudo p{ max-width: none; }
+  }
 
   /* ---------------- sobre / trajetória ---------------- */
   .sobre{
@@ -521,7 +529,7 @@
   <div class="envelope conteudo-hero">
     <div class="contador-quadro anima-entrada">ROLO 001 — 3 QUADROS EXPOSTOS</div>
     <h1 class="anima-entrada">Letícia Fantucci<br>Medina</h1>
-    <p class="cargo anima-entrada">Estudante de Análise e Desenvolvimento de Sistemas construindo uma ponte entre código e imagem — telas, paletas e interfaces.</p>
+    <p class="cargo anima-entrada">Desenvolvedora front-end em formação, estudante de Análise e Desenvolvimento de Sistemas. Faço interfaces com cuidado visual — do HTML à paleta de cores.</p>
     <div class="links-topo anima-entrada">
       <a href="https://github.com/wlehtz" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/let%C3%ADcia-fantucci-medina" target="_blank" rel="noopener">LinkedIn</a>
@@ -540,58 +548,125 @@
 
     <div class="rolo">
 
-      <div class="quadro revelar" style="--atraso:0">
+      <!--
+        DOLCE BELLA — projeto para cliente real (bloco pronto, desativado)
+        Para publicar: apague as duas linhas marcadas INICIO e FIM logo abaixo e preencha:
+          1. IMAGEM   -> salve o print do site como assets/dolce-bella-preview.jpg (900x600, proporção 3:2)
+          2. DESCRIÇÃO -> o que foi feito para a cliente (substitua o texto entre colchetes)
+          3. LINK     -> endereço do site publicado, nos dois href="#"
+          4. RESULTADO -> o que mudou para a loja depois do site (substitua o texto entre colchetes)
+        Depois atualize a numeração dos quadros (01 a 04) e o texto "3 QUADROS EXPOSTOS" no topo.
+      -->
+      <!-- INICIO
+      <article class="quadro revelar" style="--atraso:0">
         <div class="numero-quadro">01</div>
         <div class="quadro-conteudo">
-          <h3>30 Poses</h3>
-          <div class="pilha-tecnica">HTML · CSS · JavaScript — publicado na Vercel</div>
-          <a class="preview-site" href="https://30poses.vercel.app" target="_blank" rel="noopener">
+          <div class="quadro-texto">
+            <h3>Dolce Bella <span class="selo-cliente">cliente real</span></h3>
+            <div class="pilha-tecnica">HTML · CSS · JavaScript</div>
+            <p>Site da Dolce Bella, perfumaria e cosmética artesanal em Guarulhos (SP). [DESCRIÇÃO: o que você fez — rebranding, logo, páginas, contato pelo WhatsApp…]</p>
+            <dl class="ficha">
+              <div><dt>Quando</dt><dd>[mês/ano]</dd></div>
+              <div><dt>Resultado</dt><dd>[RESULTADO: o que mudou para a loja]</dd></div>
+            </dl>
+            <div class="links-quadro">
+              <a class="link-projeto" href="#" target="_blank" rel="noopener">Ver site</a>
+            </div>
+          </div>
+          <a class="quadro-midia preview-site" href="#" target="_blank" rel="noopener">
+            <img src="assets/dolce-bella-preview.jpg" width="900" height="600" alt="Tela inicial do site da Dolce Bella">
+          </a>
+        </div>
+      </article>
+      FIM -->
+
+      <article class="quadro revelar" style="--atraso:0">
+        <div class="numero-quadro">01</div>
+        <div class="quadro-conteudo">
+          <div class="quadro-texto">
+            <h3>30 Poses</h3>
+            <div class="pilha-tecnica">HTML · CSS · JavaScript — publicado na Vercel</div>
+            <p>Ensaio visual sobre fotografia analógica em página única: nove "quadros" que comparam as trinta chances de um rolo de filme com o excesso de telas de hoje. Grão de filme, trilho de filmstrip 35mm e contato com 23 fotos minhas, tudo construído do zero.</p>
+            <dl class="ficha">
+              <div><dt>Quando</dt><dd>julho de 2026</dd></div>
+              <div><dt>Desafio</dt><dd>fazer e publicar sozinha, do design à correção de bugs de layout e de caminhos de imagem</dd></div>
+              <div><dt>Destaque técnico</dt><dd>contador de quadro com <code>IntersectionObserver</code> e perfurações do filme recalculadas a cada redimensionamento</dd></div>
+              <!-- <div><dt>O que aprendi</dt><dd>PREENCHER</dd></div> -->
+            </dl>
+            <div class="links-quadro">
+              <a class="link-projeto" href="https://30poses.vercel.app" target="_blank" rel="noopener">Ver site</a>
+              <span aria-hidden="true">·</span>
+              <a class="link-projeto" href="https://github.com/wlehtz/30poses" target="_blank" rel="noopener">Ver código no GitHub</a>
+            </div>
+          </div>
+          <a class="quadro-midia preview-site" href="https://30poses.vercel.app" target="_blank" rel="noopener" aria-label="Abrir o site 30 Poses">
             <img src="assets/30poses-preview.jpg" width="900" height="600" alt="Tela inicial do site 30 Poses, com o título em letras grandes e a borda de filme 35mm">
           </a>
-          <p>Site pessoal de página única sobre fotografia analógica, unindo estética Y2K a uma reflexão sobre o excesso de telas. Grão de filme, trilho de filmstrip 35mm e cards estilo polaroide, tudo construído do zero.</p>
-          <a class="link-projeto" href="https://30poses.vercel.app" target="_blank" rel="noopener">Ver site</a>
-          &nbsp;·&nbsp;
-          <a class="link-projeto" href="https://github.com/wlehtz/30poses" target="_blank" rel="noopener">Ver código no GitHub</a>
         </div>
-      </div>
+      </article>
 
-      <div class="quadro revelar" style="--atraso:1">
+      <article class="quadro revelar" style="--atraso:1">
         <div class="numero-quadro">02</div>
         <div class="quadro-conteudo">
-          <h3>Filtro Analógico</h3>
-          <div class="pilha-tecnica">Python · Pillow · NumPy</div>
-          <div class="comparador" id="comparadorFiltro" style="--pos:50%; --largura-base:480px;">
-            <img src="assets/filtro-depois.jpg" width="900" height="600" alt="Foto com o filtro analógico aplicado">
-            <div class="img-antes-wrap">
-              <img src="assets/filtro-antes.jpg" width="900" height="600" alt="Foto original, sem filtro">
+          <div class="quadro-texto">
+            <h3>Filtro Analógico</h3>
+            <div class="pilha-tecnica">Python · Pillow</div>
+            <p>Script que dá cara de câmera compacta de filme dos anos 90 a uma foto digital: cores desbotadas e mais quentes, vinheta nas bordas, granulado e o carimbo de data laranja no canto. A demo roda no navegador, reescrita em JavaScript.</p>
+            <dl class="ficha">
+              <div><dt>Quando</dt><dd>setembro de 2026</dd></div>
+              <div><dt>Destaque técnico</dt><dd>pipeline de quatro etapas com Pillow — gradação de cor, vinheta com máscara elíptica, granulado e carimbo</dd></div>
+              <!-- <div><dt>Desafio</dt><dd>PREENCHER</dd></div> -->
+              <!-- <div><dt>O que aprendi</dt><dd>PREENCHER</dd></div> -->
+            </dl>
+            <div class="links-quadro">
+              <a class="link-projeto" href="demo-filtro.html">Testar com sua foto</a>
+              <span aria-hidden="true">·</span>
+              <a class="link-projeto" href="https://github.com/wlehtz/filtro-analogico" target="_blank" rel="noopener">Ver código no GitHub</a>
             </div>
-            <div class="rotulo antes">antes</div>
-            <div class="rotulo depois">depois</div>
-            <div class="alca"></div>
-            <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois">
           </div>
-          <p class="legenda-comparador">arraste para comparar</p>
-          <p>Script que aplica efeitos de foto analógica em qualquer imagem: grão de filme gerado com ruído, vinheta calculada pela distância ao centro, tom retrô quente ou frio, e um carimbo de data no canto, estilo câmera compacta dos anos 90.</p>
-          <a class="link-projeto" href="demo-filtro.html">Testar com sua foto</a>
-          &nbsp;·&nbsp;
-          <a class="link-projeto" href="https://github.com/wlehtz/filtro-analogico" target="_blank" rel="noopener">Ver código no GitHub</a>
+          <div class="quadro-midia">
+            <div class="comparador" id="comparadorFiltro" style="--pos:50%; --largura-base:480px;">
+              <img src="assets/filtro-depois.jpg" width="900" height="600" alt="Foto de prédios no centro de São Paulo com o filtro analógico aplicado">
+              <div class="img-antes-wrap">
+                <img src="assets/filtro-antes.jpg" width="900" height="600" alt="Foto original de prédios no centro de São Paulo, sem filtro">
+              </div>
+              <div class="rotulo antes">antes</div>
+              <div class="rotulo depois">depois</div>
+              <div class="alca"></div>
+              <input type="range" min="0" max="100" value="50" aria-label="Comparar foto antes e depois do filtro — use as setas do teclado">
+            </div>
+            <p class="legenda-comparador">arraste (ou use as setas) para comparar · foto: Letícia Fantucci Medina</p>
+          </div>
         </div>
-      </div>
+      </article>
 
-      <div class="quadro revelar" style="--atraso:2">
+      <article class="quadro revelar" style="--atraso:2">
         <div class="numero-quadro">03</div>
         <div class="quadro-conteudo">
-          <h3>Paleta de Cores</h3>
-          <div class="pilha-tecnica">Python · Pillow</div>
-          <div class="preview-paleta">
-            <img src="assets/paleta-exemplo.png" width="900" height="160" loading="lazy" alt="Exemplo de paleta de cores extraída de uma foto">
+          <div class="quadro-texto">
+            <h3>Paleta de Cores</h3>
+            <div class="pilha-tecnica">Python · Pillow</div>
+            <p>Extrai as cores dominantes de uma foto e gera uma imagem de paleta com os códigos hexadecimais — o tipo de referência que designers de moda e comunicação visual usam como ponto de partida.</p>
+            <dl class="ficha">
+              <div><dt>Quando</dt><dd>setembro de 2026</dd></div>
+              <div><dt>Destaque técnico</dt><dd>quantização com Pillow e descarte de cores quase iguais, para a paleta não repetir tons</dd></div>
+              <!-- <div><dt>Desafio</dt><dd>PREENCHER</dd></div> -->
+              <!-- <div><dt>O que aprendi</dt><dd>PREENCHER</dd></div> -->
+            </dl>
+            <div class="links-quadro">
+              <a class="link-projeto" href="demo-paleta.html">Testar com sua foto</a>
+              <span aria-hidden="true">·</span>
+              <a class="link-projeto" href="https://github.com/wlehtz/paleta-de-cores" target="_blank" rel="noopener">Ver código no GitHub</a>
+            </div>
           </div>
-          <p>Extrai as cores dominantes de uma foto e gera uma imagem de paleta com os códigos hexadecimais — o tipo de referência que designers de moda e comunicação visual usam como base de inspiração.</p>
-          <a class="link-projeto" href="demo-paleta.html">Testar com sua foto</a>
-          &nbsp;·&nbsp;
-          <a class="link-projeto" href="https://github.com/wlehtz/paleta-de-cores" target="_blank" rel="noopener">Ver código no GitHub</a>
+          <figure class="quadro-midia foto-para-paleta">
+            <img class="foto-origem" src="assets/paleta-foto.jpg" width="480" height="320" loading="lazy" alt="Foto analógica de uma mão segurando um copo de café diante de um mural vermelho e verde">
+            <span class="seta-paleta" aria-hidden="true">↓</span>
+            <img class="faixas" src="assets/paleta-exemplo.png" width="900" height="160" loading="lazy" alt="Paleta extraída da foto: #0B2128, #552A22, #AC4E30, #896846 e #105653">
+            <figcaption>foto original → cores extraídas pelo script</figcaption>
+          </figure>
         </div>
-      </div>
+      </article>
 
     </div>
   </div>
@@ -602,7 +677,9 @@
     <div class="revelar">
       <div class="rotulo-secao">Sobre</div>
       <h2>Da organização ao código</h2>
-      <p>Trabalhando com atendimento ao público na recepção de hospital e de laboratório, aprendi comunicação clara, organização e atenção a detalhe — hoje trago isso para o código. Curso Análise e Desenvolvimento de Sistemas e, na sequência, pretendo iniciar Comunicação Visual, porque meu interesse real está na interseção entre tecnologia e imagem.</p>
+      <p>Estudo Análise e Desenvolvimento de Sistemas na Cruzeiro do Sul, com conclusão prevista para 2027, e procuro minha primeira oportunidade em TI, de preferência em front-end.</p>
+      <p>Antes do código, trabalhei na recepção do Hospital Nipo-Brasileiro e do Femme Laboratório da Mulher: atendimento a pacientes, cadastro e atualização de dados em sistema, organização de documentos. Foi ali que aprendi a explicar as coisas com clareza e a não deixar detalhe escapar.</p>
+      <p>Também sou técnica em Modelagem do Vestuário pela ETEC — é de lá que vem meu olho para cor, forma e acabamento. Depois de ADS, quero cursar Comunicação Visual.</p>
     </div>
     <div class="colunas-habilidade revelar" style="--atraso:1">
       <div class="grupo-habilidade">
@@ -645,7 +722,7 @@
 <footer>
   <div class="envelope conteudo-footer">
     <div class="rotulo-secao" style="color:var(--ambar)">Contato</div>
-    <h2 class="revelar">Vamos revelar o próximo rolo juntos?</h2>
+    <h2 class="revelar">Vamos conversar?</h2>
     <div class="lista-contato revelar" style="--atraso:1">
       <a href="assets/cv-leticia-fantucci-medina.pdf" target="_blank" rel="noopener">Baixar currículo (PDF)</a>
       <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
