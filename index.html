@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<script>document.documentElement.classList.add('js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Letícia Fantucci Medina — Portfólio</title>
 <meta name="description" content="Portfólio de Letícia Fantucci Medina — estudante de Análise e Desenvolvimento de Sistemas unindo código e imagem, com projetos em HTML, CSS, JavaScript e Python.">
@@ -53,7 +54,7 @@
     --ambar: #D9A441;
     --ferrugem: #A23E2A;
     --sálvia: #8A9A7E;
-    --cinza-quente: #7A736A;
+    --cinza-quente: #6B645B;
   }
 
   *{ box-sizing: border-box; }
@@ -118,7 +119,7 @@
   }
 
   header.hero .conteudo-hero{
-    padding: 76px 0 84px;
+    padding: 76px 32px 84px;
     position: relative;
   }
 
@@ -231,15 +232,6 @@
   }
   .link-projeto:hover{ color: var(--ferrugem); border-color: var(--ferrugem); }
 
-  .selo-em-andamento{
-    display: inline-block;
-    font-size: 0.78rem;
-    color: var(--sálvia);
-    border: 1px solid var(--sálvia);
-    padding: 2px 10px;
-    border-radius: 2px;
-    margin-left: 10px;
-  }
 
   /* amostra visual dos projetos que já têm resultado pra mostrar */
   .preview-imagens{
@@ -272,6 +264,10 @@
     border: 1px solid rgba(23,21,18,0.15);
   }
 
+  .preview-site{ display: block; max-width: 480px; margin-bottom: 18px; border: 1px solid rgba(23,21,18,0.15); }
+  .preview-site img{ width: 100%; height: auto; display: block; }
+  .preview-site:hover{ border-color: var(--ferrugem); }
+
   /* ---------------- sobre / trajetória ---------------- */
   .sobre{
     background: #EDE6D6;
@@ -291,7 +287,7 @@
     gap: 28px 40px;
   }
 
-  .grupo-habilidade h4{
+  .grupo-habilidade h3{
     font-family: 'Work Sans', sans-serif;
     font-weight: 600;
     font-size: 0.95rem;
@@ -313,7 +309,7 @@
   }
 
   footer .conteudo-footer{
-    padding: 70px 0 40px;
+    padding: 70px 32px 40px;
   }
 
   footer h2{
@@ -363,13 +359,13 @@
   header.hero .links-topo.anima-entrada{ animation-delay: 0.45s; }
 
   /* ---------------- animações: revelar ao rolar ---------------- */
-  .revelar{
+  .js .revelar{
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.6s ease, transform 0.6s ease;
     transition-delay: calc(var(--atraso, 0) * 0.12s);
   }
-  .revelar.visivel{ opacity: 1; transform: translateY(0); }
+  .js .revelar.visivel{ opacity: 1; transform: translateY(0); }
 
   /* transições suaves nos links (não existiam — hover trocava de cor "seco") */
   .links-topo a,
@@ -457,6 +453,7 @@
     -webkit-appearance: none;
     appearance: none;
   }
+  .comparador:focus-within{ outline: 2px solid var(--ferrugem); outline-offset: 3px; }
   .legenda-comparador{
     font-size: 0.72rem;
     color: var(--cinza-quente);
@@ -493,7 +490,7 @@
   }
   .contador-flutuante.visivel{ opacity: 1; transform: translateY(0); }
   @media (max-width: 600px){
-    .contador-flutuante{ top: auto; bottom: 16px; right: 16px; font-size: 10.5px; padding: 6px 10px; }
+    .contador-flutuante{ display: none; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -535,6 +532,7 @@
 </header>
 <div class="trilho claro"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
+<main>
 <section class="projetos">
   <div class="envelope">
     <div class="rotulo-secao">Trabalho</div>
@@ -547,6 +545,9 @@
         <div class="quadro-conteudo">
           <h3>30 Poses</h3>
           <div class="pilha-tecnica">HTML · CSS · JavaScript — publicado na Vercel</div>
+          <a class="preview-site" href="https://30poses.vercel.app" target="_blank" rel="noopener">
+            <img src="assets/30poses-preview.jpg" width="900" height="600" alt="Tela inicial do site 30 Poses, com o título em letras grandes e a borda de filme 35mm">
+          </a>
           <p>Site pessoal de página única sobre fotografia analógica, unindo estética Y2K a uma reflexão sobre o excesso de telas. Grão de filme, trilho de filmstrip 35mm e cards estilo polaroide, tudo construído do zero.</p>
           <a class="link-projeto" href="https://30poses.vercel.app" target="_blank" rel="noopener">Ver site</a>
           &nbsp;·&nbsp;
@@ -588,7 +589,7 @@
           <p>Extrai as cores dominantes de uma foto e gera uma imagem de paleta com os códigos hexadecimais — o tipo de referência que designers de moda e comunicação visual usam como base de inspiração.</p>
           <a class="link-projeto" href="demo-paleta.html">Testar com sua foto</a>
           &nbsp;·&nbsp;
-          <a class="link-projeto" href="https://github.com/wlehtz/paleta-cores" target="_blank" rel="noopener">Ver código no GitHub</a>
+          <a class="link-projeto" href="https://github.com/wlehtz/paleta-de-cores" target="_blank" rel="noopener">Ver código no GitHub</a>
         </div>
       </div>
 
@@ -601,11 +602,11 @@
     <div class="revelar">
       <div class="rotulo-secao">Sobre</div>
       <h2>Da organização ao código</h2>
-      <p>Anos de experiência em organização e atendimento me ensinaram comunicação clara e atenção a detalhe — hoje trago isso para o código. Curso Análise e Desenvolvimento de Sistemas e, na sequência, pretendo iniciar Comunicação Visual, porque meu interesse real está na interseção entre tecnologia e imagem.</p>
+      <p>Trabalhando com atendimento ao público na recepção de hospital e de laboratório, aprendi comunicação clara, organização e atenção a detalhe — hoje trago isso para o código. Curso Análise e Desenvolvimento de Sistemas e, na sequência, pretendo iniciar Comunicação Visual, porque meu interesse real está na interseção entre tecnologia e imagem.</p>
     </div>
     <div class="colunas-habilidade revelar" style="--atraso:1">
       <div class="grupo-habilidade">
-        <h4>Código</h4>
+        <h3>Código</h3>
         <ul>
           <li>HTML, CSS, JavaScript</li>
           <li>Python</li>
@@ -613,7 +614,7 @@
         </ul>
       </div>
       <div class="grupo-habilidade">
-        <h4>Visual</h4>
+        <h3>Visual</h3>
         <ul>
           <li>Canva, Photoshop, Illustrator</li>
           <li>CorelDRAW</li>
@@ -621,7 +622,7 @@
         </ul>
       </div>
       <div class="grupo-habilidade">
-        <h4>Atendimento &amp; organização</h4>
+        <h3>Atendimento &amp; organização</h3>
         <ul>
           <li>Comunicação clara e empática</li>
           <li>Organização de documentos e rotinas</li>
@@ -629,7 +630,7 @@
         </ul>
       </div>
       <div class="grupo-habilidade">
-        <h4>Idiomas</h4>
+        <h3>Idiomas</h3>
         <ul>
           <li>Português — nativo</li>
           <li>Inglês — intermediário</li>
@@ -638,12 +639,13 @@
     </div>
   </div>
 </section>
+</main>
 
 <div class="trilho escuro"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 <footer>
   <div class="envelope conteudo-footer">
     <div class="rotulo-secao" style="color:var(--ambar)">Contato</div>
-    <h2 class="revelar">Vamos revelar o próximo rolo juntas?</h2>
+    <h2 class="revelar">Vamos revelar o próximo rolo juntos?</h2>
     <div class="lista-contato revelar" style="--atraso:1">
       <a href="assets/cv-leticia-fantucci-medina.pdf" target="_blank" rel="noopener">Baixar currículo (PDF)</a>
       <a href="mailto:elar450@gmail.com">elar450@gmail.com</a>
